@@ -29,7 +29,7 @@
                     <summary>Admin</summary>
                     <ul class="p-2">
                         <li><a href="{{route('posts.index')}}">Posts</a></li>
-                        <li><a>Submenu 2</a></li>
+                        <li><a href="{{ route('admin.users.index') }}">Users</a></li>
                     </ul>
                 </details>
             </li>
@@ -54,7 +54,7 @@
                         </ul>
                     </details>
                 </li>
-        </ul>
+            </ul>
         @else
             <a href="{{ route('login') }}" class="btn btn-primary">@lang('Login')</a>
             <a href="{{ route('register') }}" class="btn btn-success">@lang('Register')</a>

@@ -4,6 +4,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminUserController;
 
 Route::get('/', [PublicController::class, 'index'])->name('home');
 Route::get('/post/{post}', [PublicController::class, 'post'])->name('post');
@@ -11,6 +12,16 @@ Route::get('/post/{post}', [PublicController::class, 'post'])->name('post');
 Route::get('/admin/posts', [PostController::class, 'index'])->name('posts.index');
 Route::get('/admin/posts/create', [PostController::class, 'create'])->name('posts.create');
 Route::post('/admin/posts', [PostController::class, 'store'])->name('posts.store');
+
+Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.users.index');
+Route::get('/admin/users/create', [AdminUserController::class, 'create'])->name('admin.users.create');
+Route::post('/admin/users', [AdminUserController::class, 'store'])->name('admin.users.store');
+
+Route::get('/admin/users/{user}/edit', [AdminUserController::class, 'edit'])->name('admin.users.edit');
+Route::put('/admin/users/{user}', [AdminUserController::class, 'update'])->name('admin.users.update');
+
+Route::delete('/admin/users/{user}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -22,4 +33,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
