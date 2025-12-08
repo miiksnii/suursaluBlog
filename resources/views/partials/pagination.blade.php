@@ -1,78 +1,62 @@
+
+{{-- Convertisin DaisiUIsse --}}
 @if ($paginator->hasPages())
-    <nav class="my-10 flex justify-center">
-        <ul class="flex items-center gap-2 bg-base-200 px-4 py-3 rounded-full shadow">
+    <nav class="my-4 flex justify-center">
+        <div class="join">
 
             {{-- Previous --}}
-            <li>
-                @if ($paginator->onFirstPage())
-                    <button
-                        class="btn btn-sm btn-circle btn-ghost text-base-content/40 cursor-not-allowed"
-                        disabled
-                    >
-                        <i class="la la-arrow-left text-lg"></i>
-                    </button>
-                @else
-                    <a href="{{ $paginator->previousPageUrl() }}"
-                       class="btn btn-sm btn-circle btn-ghost text-base-content hover:bg-base-300"
-                       aria-label="@lang('pagination.previous')"
-                    >
-                        <i class="la la-arrow-left text-lg"></i>
-                    </a>
-                @endif
-            </li>
+            @if ($paginator->onFirstPage())
+                <button class="btn join-item btn-disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
+                    «
+                </button>
+            @else
+                <a href="{{ $paginator->previousPageUrl() }}"
+                   class="btn join-item"
+                   rel="prev"
+                   aria-label="@lang('pagination.previous')">
+                    «
+                </a>
+            @endif
 
-            {{-- Page Numbers --}}
+            {{-- Page numbers --}}
             @foreach ($elements as $element)
-
                 {{-- Dots --}}
                 @if (is_string($element))
-                    <li>
-                        <span class="px-3 text-sm text-base-content/50">{{ $element }}</span>
-                    </li>
+                    <button class="btn join-item btn-disabled" aria-disabled="true">
+                        {{ $element }}
+                    </button>
                 @endif
 
-                {{-- Page Links --}}
+                {{-- Links --}}
                 @if (is_array($element))
                     @foreach ($element as $page => $url)
-                        <li>
-                            @if ($page == $paginator->currentPage())
-                                <span
-                                    class="btn btn-sm rounded-full bg-primary text-primary-content font-semibold shadow"
-                                >
-                                    {{ $page }}
-                                </span>
-                            @else
-                                <a href="{{ $url }}"
-                                   class="btn btn-sm rounded-full btn-ghost hover:bg-base-300"
-                                >
-                                    {{ $page }}
-                                </a>
-                            @endif
-                        </li>
+                        @if ($page === $paginator->currentPage())
+                            <button class="btn join-item btn-active" aria-current="page">
+                                {{ $page }}
+                            </button>
+                        @else
+                            <a href="{{ $url }}" class="btn join-item">
+                                {{ $page }}
+                            </a>
+                        @endif
                     @endforeach
                 @endif
-
             @endforeach
 
             {{-- Next --}}
-            <li>
-                @if ($paginator->hasMorePages())
-                    <a href="{{ $paginator->nextPageUrl() }}"
-                       class="btn btn-sm btn-circle btn-ghost text-base-content hover:bg-base-300"
-                       aria-label="@lang('pagination.next')"
-                    >
-                        <i class="la la-arrow-right text-lg"></i>
-                    </a>
-                @else
-                    <button
-                        class="btn btn-sm btn-circle btn-ghost text-base-content/40 cursor-not-allowed"
-                        disabled
-                    >
-                        <i class="la la-arrow-right text-lg"></i>
-                    </button>
-                @endif
-            </li>
+            @if ($paginator->hasMorePages())
+                <a href="{{ $paginator->nextPageUrl() }}"
+                   class="btn join-item"
+                   rel="next"
+                   aria-label="@lang('pagination.next')">
+                    »
+                </a>
+            @else
+                <button class="btn join-item btn-disabled" aria-disabled="true" aria-label="@lang('pagination.next')">
+                    »
+                </button>
+            @endif
 
-        </ul>
+        </div>
     </nav>
 @endif
