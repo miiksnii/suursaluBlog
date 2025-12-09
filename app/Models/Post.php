@@ -13,15 +13,24 @@ class Post extends Model
 
     protected $fillable = ['title', 'body'];
 
-    public function snippet(): Attribute {
+    public function snippet(): Attribute
+    {
         return Attribute::get(function () {
             return explode("\n\n", $this->body)[0];
         });
     }
 
-    public function displayBody(): Attribute {
+    public function displayBody(): Attribute
+    {
         return Attribute::get(function () {
             return nl2br(htmlspecialchars($this->body));
         });
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+
 }

@@ -35,13 +35,14 @@ class PostController extends Controller
         return redirect()->route('posts.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Post $post)
     {
-        //
+        // load comments + the users who wrote them
+        $post->load('comments.user');
+
+        return view('posts.show', compact('post'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
