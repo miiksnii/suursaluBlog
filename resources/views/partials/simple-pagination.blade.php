@@ -1,19 +1,32 @@
+{{-- Nüüd on õige fail ka... --}}
 @if ($paginator->hasPages())
-    <nav>
-        <ul class="pagination">
-            {{-- Previous Page Link --}}
+    <nav class="flex justify-center my-6">
+        <div class="join">
+
+            {{-- Previous --}}
             @if ($paginator->onFirstPage())
-                <li class="disabled" aria-disabled="true"><span>@lang('pagination.previous')</span></li>
+                <button class="btn join-item btn-disabled">
+                    « Previous
+                </button>
             @else
-                <li><a href="{{ $paginator->previousPageUrl() }}" rel="prev">@lang('pagination.previous')</a></li>
+                <a href="{{ $paginator->previousPageUrl() }}"
+                   class="btn join-item">
+                    « Previous
+                </a>
             @endif
 
-            {{-- Next Page Link --}}
+            {{-- Next --}}
             @if ($paginator->hasMorePages())
-                <li><a href="{{ $paginator->nextPageUrl() }}" rel="next">@lang('pagination.next')</a></li>
+                <a href="{{ $paginator->nextPageUrl() }}"
+                   class="btn join-item">
+                    Next »
+                </a>
             @else
-                <li class="disabled" aria-disabled="true"><span>@lang('pagination.next')</span></li>
+                <button class="btn join-item btn-disabled">
+                    Next »
+                </button>
             @endif
-        </ul>
+
+        </div>
     </nav>
 @endif
