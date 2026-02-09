@@ -2,23 +2,21 @@
 
 namespace Database\Seeders;
 
-use App\Models\Post;
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Post;
+use App\Models\Image;
 
-class PostSeeder extends Seeder
+class ImageSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $users = User::all();
-        $posts = Post::factory(1000)->make()->sortBy('created_at');
+        $posts = Post::all();
         foreach($posts as $post) {
-            $post->user()->associate($users->random());
-            $post->save();
+            Image::factory(rand(0,5))->create(['post_id' => $post->id]);
         }
     }
 }
