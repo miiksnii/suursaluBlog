@@ -11,12 +11,9 @@
 
 <body>
     @include('partials.nav')
-    <div>
+    <div class="container mx-auto mt-2">
         @yield('content')
     </div>
 </body>
-
-
-
 
 </html>

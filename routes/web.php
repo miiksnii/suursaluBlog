@@ -7,6 +7,12 @@ use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminUserController;
 
+use App\Http\Controllers\CategoryController;
+
+Route::get('/category/{category}', [CategoryController::class, 'show'])
+    ->name('category');
+
+
 Route::get('/', [PublicController::class, 'index'])->name('home');
 Route::get('/post/{post}', [PublicController::class, 'post'])->name('post');
 Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
@@ -36,6 +42,4 @@ Route::middleware('auth')->group(function () {
 });
 
 // routes/web.php
-
-
 require __DIR__ . '/auth.php';

@@ -1,68 +1,42 @@
 <section class="space-y-6">
-    <header class="space-y-2">
-        <h2 class="text-lg font-semibold">
+    <header>
+        <h2 class="text-lg font-medium text-base-content">
             {{ __('Delete Account') }}
         </h2>
 
-        <p class="text-sm opacity-80 max-w-md leading-relaxed">
+        <p class="mt-1 text-sm text-base-content">
             {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
         </p>
     </header>
+    <button class="btn btn-error" onclick="my_modal_1.showModal()">{{ __('Delete Account') }}</button>
 
-    <!-- Trigger button -->
-    <button class="btn btn-error" onclick="delete_account_modal.showModal()">
-        {{ __('Delete Account') }}
-    </button>
-
-    <!-- Modal -->
-    <dialog id="delete_account_modal" class="modal">
-        <div class="modal-box space-y-6">
-
-            <!-- Title -->
-            <h3 class="text-lg font-semibold">
-                {{ __('Are you sure you want to delete your account?') }}
-            </h3>
-
-            <!-- Description -->
-            <p class="text-sm opacity-80 leading-relaxed">
-                {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
-            </p>
-
-            <!-- Form -->
-            <form id="delete-account" method="post" action="{{ route('profile.destroy') }}" class="space-y-4">
+    <dialog id="my_modal_1" class="modal">
+        <div class="modal-box">
+            <form id="delete-account" method="post" action="{{ route('profile.destroy') }}" class="p-6">
                 @csrf
                 @method('delete')
 
-                <div class="form-control w-full">
-                    <label class="label">
-                        <span class="label-text">@lang('Password')</span>
-                    </label>
+                <h2 class="text-lg font-medium text-base-content">
+                    {{ __('Are you sure you want to delete your account?') }}
+                </h2>
 
-                    <input
-                        type="password"
-                        name="password"
-                        class="input input-bordered w-full"
-                        placeholder="@lang('Password')"
-                        required
-                        autocomplete="current-password"
-                    />
+                <p class="mt-1 text-sm text-base-content">
+                    {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.') }}
+                </p>
 
+                <fieldset class="fieldset">
+                    <legend class="fieldset-legend">@lang('Password')</legend>
+                    <input type="password" name="password" class="input w-full"
+                        placeholder="@lang('Password')" required autocomplete="current-password" />
                     @error('password')
-                        <label class="label">
-                            <span class="label-text text-error">{{ $message }}</span>
-                        </label>
+                        <p class="label">{{ $message }}</p>
                     @enderror
-                </div>
+                </fieldset>
             </form>
-
-            <!-- Actions -->
             <div class="modal-action">
                 <form method="dialog">
-                    <button class="btn btn-secondary">
-                        {{ __('Cancel') }}
-                    </button>
+                    <button class="btn btn-secondary">{{ __('Cancel') }}</button>
                 </form>
-
                 <button class="btn btn-error" type="submit" form="delete-account">
                     {{ __('Delete Account') }}
                 </button>

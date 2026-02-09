@@ -24,6 +24,8 @@ class StorePostRequest extends FormRequest
         return [
             'title' => ['required'],
             'body' => ['nullable'],
+            'category_id' => ['required', 'exists:App\Models\Category,id'],
+            'image' => ['nullable']
         ];
     }
 }

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Image;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -30,26 +32,35 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
+
+
         $post = new Post($request->validated());
+        $post->user()->associate(Auth::user());
+        $post->category()->associate($request->validated('category_id'));
         $post->save();
+        foreach($request->validated('image') as $file) {
+            $image = new Image();
+            $image->path = $file->store('', ['disk' => 'public']);
+            $image->post()->associate($post);
+            $image->save();
+        }
         return redirect()->route('posts.index');
     }
 
+    /**
+     * Display the specified resource.
+     */
     public function show(Post $post)
     {
-        // load comments + the users who wrote them
-        $post->load('comments.user');
-
-        return view('posts.show', compact('post'));
+        //
     }
-
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Post $post)
     {
-        //
+        return view('posts.edit', compact('post'));
     }
 
     /**
@@ -57,7 +68,8 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        //
+        $post->update($request->validated());
+        return redirect()->route('posts.index');
     }
 
     /**
@@ -65,6 +77,32 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect()->route('posts.index');
+    }
+
+    public function deleted(){
+        $posts = Post::onlyTrashed()->paginate();
+        return view('posts.index', compact('posts'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function restore($post)
+    {
+        $post = Post::onlyTrashed()->where('id', $post)->firstOrFail();
+        $post->restore();
+        return redirect()->route('posts.index');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function permaDestroy($post)
+    {
+        $post = Post::onlyTrashed()->where('id', $post)->firstOrFail();
+        $post->forceDelete();
+        return redirect()->route('posts.deleted');
     }
 }

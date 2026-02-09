@@ -21,19 +21,25 @@
         </div>
         <a href="/" class="btn btn-ghost text-xl">daisyUI</a>
     </div>
-    <div class="navbar-center lg:flex">
+    <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1 z-10">
-            <li><a>Item 1</a></li>
+            @foreach (App\Models\Category::where('category_id', null)->get() as $category)
+                @include('partials.submenu')
+            @endforeach
+
+
+        @auth
             <li>
                 <details>
                     <summary>Admin</summary>
                     <ul class="p-2">
-                        <li><a href="{{route('posts.index')}}">Posts</a></li>
-                        <li><a href="{{ route('admin.users.index') }}">Users</a></li>
+                        <li><a href="{{ route('posts.index') }}">Posts</a></li>
+                        <li><a>Submenu 2</a></li>
                     </ul>
                 </details>
             </li>
-            <li><a>Item 3</a></li>
+        @endauth
+
         </ul>
     </div>
     <div class="navbar-end gap-2">
@@ -46,7 +52,7 @@
                         <ul class="p-2">
                             <li><a href="{{ route('profile.edit') }}">@lang('Profile')</a></li>
                             <li>
-                                <form action="{{route('logout')}}" method="POST">
+                                <form action="{{ route('logout') }}" method="POST">
                                     @csrf
                                     <button>@lang('Logout')</button>
                                 </form>
