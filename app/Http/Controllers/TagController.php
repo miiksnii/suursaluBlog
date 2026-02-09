@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Tag;
 use App\Http\Requests\StoreTagRequest;
 use App\Http\Requests\UpdateTagRequest;
+use App\Models\Post;
 
 class TagController extends Controller
 {
@@ -37,8 +38,17 @@ class TagController extends Controller
      */
     public function show(Tag $tag)
     {
-        //
+        $posts = Post::with('user')
+            ->withCount('comments', 'likes')
+            ->whereHas('tags', function ($q) use ($tag) {
+                $q->where('tags.id', $tag->id);
+            })
+            ->latest()
+            ->simplePaginate(16);
+
+        return view('tag', compact('tag', 'posts'));
     }
+
 
     /**
      * Show the form for editing the specified resource.

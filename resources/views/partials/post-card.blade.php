@@ -7,7 +7,7 @@
         <div class="carousel rounded-box ">
             @foreach($post->images as $image)
                 <div class="carousel-item  w-full">
-                    <img src="{{$image->url}}"  />
+                    <img src="{{$image->url}}" />
                 </div>
             @endforeach
         </div>
@@ -30,9 +30,12 @@
         </p>
         <div class="flex flex-row flex-wrap gap-1">
             @foreach ($post->tags as $tag)
-                <div class="badge badge-primary">{{ $tag->name }}</div>
+                <a href="{{ route('tag', $tag) }}" class="badge badge-primary hover:badge-secondary">
+                    {{ $tag->name }}
+                </a>
             @endforeach
         </div>
+
         <div class="card-actions justify-end">
             @if ($post->authHasLiked)
                 <a href="{{ route('like', $post) }}" class="btn btn-error">Unlike</a>

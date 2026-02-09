@@ -10,6 +10,9 @@ Route::get('/post/{post}', [PublicController::class, 'post'])->name('post');
 Route::get('/category/{category}', [PublicController::class, 'category'])->name('category');
 Route::get('/user/{user}', [PublicController::class, 'user'])->name('user');
 
+use App\Http\Controllers\TagController;
+
+Route::get('/tag/{tag}', [TagController::class, 'show'])->name('tag');
 
 
 
