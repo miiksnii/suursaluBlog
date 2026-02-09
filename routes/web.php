@@ -3,17 +3,26 @@
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicController;
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', [PublicController::class, 'index'])->name('home');
 Route::get('/post/{post}', [PublicController::class, 'post'])->name('post');
 Route::get('/category/{category}', [PublicController::class, 'category'])->name('category');
 Route::get('/user/{user}', [PublicController::class, 'user'])->name('user');
 
-use App\Http\Controllers\TagController;
+
 
 Route::get('/tag/{tag}', [TagController::class, 'show'])->name('tag');
 
+
+Route::get('/admin/tags', [TagController::class, 'index'])->name('tags.index');
+Route::get('/admin/tags/create', [TagController::class, 'create'])->name('tags.create');
+Route::post('/admin/tags', [TagController::class, 'store'])->name('tags.store');
+Route::get('/admin/tags/{tag}/edit', [TagController::class, 'edit'])->name('tags.edit');
+Route::put('/admin/tags/{tag}', [TagController::class, 'update'])->name('tags.update');
+Route::delete('/admin/tags/{tag}', [TagController::class, 'destroy'])->name('tags.destroy');
 
 
 
