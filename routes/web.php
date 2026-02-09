@@ -3,32 +3,15 @@
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicController;
-use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminUserController;
-
-use App\Http\Controllers\CategoryController;
-
-Route::get('/category/{category}', [CategoryController::class, 'show'])
-    ->name('category');
-
 
 Route::get('/', [PublicController::class, 'index'])->name('home');
 Route::get('/post/{post}', [PublicController::class, 'post'])->name('post');
-Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
+Route::get('/category/{category}', [PublicController::class, 'category'])->name('category');
+Route::get('/user/{user}', [PublicController::class, 'user'])->name('user');
 
-Route::get('/admin/posts', [PostController::class, 'index'])->name('posts.index');
-Route::get('/admin/posts/create', [PostController::class, 'create'])->name('posts.create');
-Route::post('/admin/posts', [PostController::class, 'store'])->name('posts.store');
 
-Route::get('/admin/users', [AdminUserController::class, 'index'])->name('admin.users.index');
-Route::get('/admin/users/create', [AdminUserController::class, 'create'])->name('admin.users.create');
-Route::post('/admin/users', [AdminUserController::class, 'store'])->name('admin.users.store');
 
-Route::get('/admin/users/{user}/edit', [AdminUserController::class, 'edit'])->name('admin.users.edit');
-Route::put('/admin/users/{user}', [AdminUserController::class, 'update'])->name('admin.users.update');
-
-Route::delete('/admin/users/{user}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
 
 
 Route::get('/dashboard', function () {
@@ -36,10 +19,22 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    Route::get('/post/{post}/like', [PublicController::class, 'like'])->name('like');
+    Route::get('/user/{user}/follow', [PublicController::class, 'follow'])->name('follow');
+    // Route::get('/admin/posts', [PostController::class, 'index'])->name('posts.index');
+    // Route::get('/admin/posts/create', [PostController::class, 'create'])->name('posts.create');
+    // Route::post('/admin/posts', [PostController::class, 'store'])->name('posts.store');
+    // Route::get('/admin/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
+    // Route::put('/admin/posts/{post}', [PostController::class, 'update'])->name('posts.update');
+    // Route::delete('/admin/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+    Route::get('/admin/posts/deleted', [PostController::class, 'deleted'])->name('posts.deleted');
+    Route::patch('/admin/posts/{post}/restore', [PostController::class, 'restore'])->name('posts.restore');
+    Route::delete('/admin/posts/{post}/permadestroy', [PostController::class, 'permaDestroy'])->name('posts.permadestroy');
+    Route::resource('/admin/posts', PostController::class);
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// routes/web.php
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
